@@ -6,13 +6,21 @@
 # start with:
 # $ sudo docker-compose up
 
-# after start, enter shell with:
-# $ sudo docker exec -it lighttpddocker_lighttpd_1 ash
-
-lighttpd:
-    container_name: lighttpd
+version: "3.0"
+services:
+  lighttpd:
     build: .
-    restart: always
+    image: docker-lighttpd:latest
+    container_name: lighttpd
+    hostname: lighttpd
     ports:
-        - "8001:80" # for testing purposes, (un)comment as required
+      - 80:80
+      - 443:443
+    volumes:
+      - ./data/htdocs:/var/www/localhost/htdocs
+      - ./data/certs:/var/www/localhost/certs
+      - ./data/vhosts/vhost1:/var/www/localhost/vhost1
+      - ./data/vhosts/vhost2:/var/www/localhost/vhost2
+      - ./data/config:/etc/lighttpd
+    restart: unless-stopped
     tty: true
