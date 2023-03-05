@@ -50,7 +50,7 @@ version: "3.0"
 services:
   lighttpd:
     build: .
-    image: docker-lighttpd:latest
+    image: anoikisnomads/lighttpd:latest
     container_name: lighttpd
     hostname: lighttpd
     ports:
@@ -71,7 +71,7 @@ version: "3.0"
 services:
   lighttpd:
     build: .
-    image: docker-lighttpd:latest
+    image: anoikisnomads/lighttpd:latest
     container_name: lighttpd
     hostname: lighttpd
     ports:
