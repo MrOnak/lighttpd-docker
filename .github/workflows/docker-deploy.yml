@@ -2,8 +2,8 @@ name: Docker deploy
 
 on:
   push:
-    branches: master
     tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
@@ -32,4 +32,4 @@ jobs:
             --platform linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6 \
             --push . \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:1.4.67
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:${{ github.ref_name }}
