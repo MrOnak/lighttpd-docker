@@ -2,6 +2,8 @@
 
 Lighttpd on Alpine Linux, ready for SSL and virtual hosts.
 
+Find the build scripts and example files on [github](https://github.com/MrOnak/lighttpd-docker/), and the docker image on [docker hub](https://hub.docker.com/repository/docker/anoikisnomads/lighttpd).
+
 ## Build
 
 To build this yourself:
