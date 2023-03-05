@@ -49,7 +49,6 @@ A working docker-compose.yml file is provided as inpiration. Tweak to your needs
 version: "3.0"
 services:
   lighttpd:
-    build: .
     image: anoikisnomads/lighttpd:latest
     container_name: lighttpd
     hostname: lighttpd
@@ -70,7 +69,6 @@ services:
 version: "3.0"
 services:
   lighttpd:
-    build: .
     image: anoikisnomads/lighttpd:latest
     container_name: lighttpd
     hostname: lighttpd
