@@ -17,10 +17,10 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./data/htdocs:/var/www/localhost/htdocs
-      - ./data/certs:/var/www/localhost/certs
-      - ./data/vhosts/vhost1:/var/www/localhost/vhost1
-      - ./data/vhosts/vhost2:/var/www/localhost/vhost2
-      - ./data/config:/etc/lighttpd
+      - ./data/config:/etc/lighttpd # lighttpd configs, including vhosts and mods
+      - ./data/certs:/var/www/certs # place SSL certificates here
+      - ./data/htdocs:/var/www/htdocs # htdocs for the default host
+      - ./data/vhosts/vhost1:/var/www/vhost1 # example folder for virtual host
+      - ./data/vhosts/vhost2:/var/www/vhost2 # example folder for virtual host
     restart: unless-stopped
     tty: true
