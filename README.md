@@ -1,82 +1,93 @@
 # lighttpd Docker image
 
-Security, speed, compliance, and flexibility -- all of these describe [lighttpd](http://www.lighttpd.net/)
-
-### Contents
-
- - Usage
-	 - Start a container with Docker
-	 - Start a container with Docker Compose
- - Build
-	 - Build with Docker
-	 - Build with Docker Compose
-	 - Build with Docker Buildx
- - About
-
-## Usage
-
-In the instructions that follow, replace:
-
-- `<home-directory>` with the path of the local directory you want to serve content from.
-
-- `<config-directory>` with the path of the local directory containing lighttpd configuration files that you want to use instead of the default ones.
-
-	To make it easier to create custom configuration files, the default configuration files are included in the `etc/lighttpd` directory of the Git repository.
- 
--  `<http-port>` with the HTTP port you want the HTTP server to serve content to (e.g. `80` for the standard HTTP port if not already in use on the host).
-
-### Start a container with Docker
-
-With the default configuration files:
-
-	$ sudo docker run --rm -t -v <home-directory>:/var/www/localhost/htdocs -p <http-port>:80 sebp/lighttpd
-
-With custom configuration files:
-
-	$ sudo docker run --rm -t -v <home-directory>:/var/www/localhost/htdocs -v <config-directory>:/etc/lighttpd -p <http-port>:80 sebp/lighttpd
-
-### Start a container with Docker Compose
-
-Add the following lines in an existing or a new `docker-compose.yml` file:
-
-	lighttpd:
-	  image: sebp/lighttpd
-	  volumes:
-	    - <home-directory>:/var/www/localhost/htdocs
-	    - <config-directory>:/etc/lighttpd
-	  ports:
-	    - "<http-port>:80"
-	  tty: true
-
-**Note** – The `- <config-directory>:…` line is optional, it can be used to override the default configuration files with your own.
-
-Then start a lighttpd container with:
-
-	$ sudo docker-compose up lighttpd
-
+Lighttpd on Alpine Linux, ready for SSL and virtual hosts.
 
 ## Build
 
-First clone or download the [spujadas/lighttpd-docker](https://github.com/spujadas/lighttpd-docker) GitHub repository, open a shell in the newly created `lighttpd-docker` directory, then build the image and run a container using Docker, Docker Compose, or Docker Buildx, as explained below.
+To build this yourself:
 
-### Build with Docker
+* fork my repo https://github.com/MrOnak/lighttpd-docker.git
+* create a local clone of your repository
+* within your local clone, build your docker image:
+  * with docker: `docker build .`
+  * OR with docker compose: `docker compose build`
 
-This command will build the image:
+## Usage
 
-	$ sudo docker build .
+Before starting anything do have a look at `data/config/lighttpd.conf` and adapt the configuration to your needs. The `lighttpd.conf` file itself only contains the fundamentals. 
 
-### Build with Docker Compose
+Any configuration of a lighttpd module or virtualhost config is assumed to be in individual files within `data/config/`: 
 
-Build the image with this command:
+* add module configs as `data/config/mod_*.conf`
+* add virtual host configs as `data/config/vhost_*.conf`
 
-	$ sudo docker-compose build
+In a module config you will need to register the module itself before writing the actual configuration:
 
-### Build with Docker Buildx
+```
+server.modules += (
+  "mod_access",
+)
+```
 
-Build the image with this command:
+### a word about HTTP and HTTPS
 
-	$ sudo buildx build .
+The image comes with mod_openssl and mod_rewrite enabled. Place certificates for the main host and all virtual hosts in `data/certs/`.
+
+By default lighttpd will serve HTTP on port 80 and HTTPS on port 443.
+
+If you want to automatically redirect HTTP traffic to HTTPS, have a look at `data/config/mod_rewrite.conf`.
+
+### docker compose
+
+A working docker-compose.yml file is provided as inpiration. Tweak to your needs.
+
+### serving a single site
+
+```
+version: "3.0"
+services:
+  lighttpd:
+    build: .
+    image: docker-lighttpd:latest
+    container_name: lighttpd
+    hostname: lighttpd
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./data/config:/etc/lighttpd # lighttpd configs, including vhosts and mods
+      - ./data/certs:/var/www/certs # place SSL certificates here
+      - ./data/htdocs:/var/www/htdocs # htdocs for the default host
+    restart: unless-stopped
+    tty: true
+```
+
+### serving multiple sites through virtual hosts
+
+```
+version: "3.0"
+services:
+  lighttpd:
+    build: .
+    image: docker-lighttpd:latest
+    container_name: lighttpd
+    hostname: lighttpd
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./data/config:/etc/lighttpd # lighttpd configs, including vhosts and mods
+      - ./data/certs:/var/www/certs # place SSL certificates here
+      - ./data/htdocs:/var/www/htdocs # htdocs for the default host
+      - ./data/vhosts/vhost1:/var/www/vhost1 # example folder for virtual host
+      - ./data/vhosts/vhost2:/var/www/vhost2 # example folder for virtual host
+    restart: unless-stopped
+    tty: true
+```
 
 ## About
 
-Written by [Sébastien Pujadas](http://pujadas.net), released under the [MIT license](http://opensource.org/licenses/MIT).
+Originally written by [Sébastien Pujadas](http://pujadas.net), released under the [MIT license](http://opensource.org/licenses/MIT).
+
+Forked and adapted by Dominique Stender, 2023.
+
