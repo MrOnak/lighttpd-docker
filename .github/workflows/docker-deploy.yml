@@ -14,12 +14,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+          
       - name: Login to Docker Hub
         run: docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password ${{ secrets.DOCKERHUB_TOKEN }}
           
-      - name: Build the docker image
+      - name: Run Buildx
         run: |
-          docker build . \
+          docker buildx build \
             --platform linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6 \
+            --push . \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:1.4.67
