@@ -16,6 +16,9 @@ services:
     ports:
       - 80:80
       - 443:443
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
     volumes:
       - ./data/config:/etc/lighttpd # lighttpd configs, including vhosts and mods
       - ./data/certs:/var/www/certs # place SSL certificates here
