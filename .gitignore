@@ -1,1 +1,3 @@
 data/certs/*.pem
+data/vhost1/logs/*.log
+data/vhost2/logs/*.log

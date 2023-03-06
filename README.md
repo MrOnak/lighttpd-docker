@@ -85,6 +85,37 @@ services:
     tty: true
 ```
 
+### user- and group id
+
+By default the lighttpd user runs as user-id 100 and group-id 101. This means that if you set the server to write files on the mounted docker volumes, these files would be owned by whatever these IDs map on your host machine.
+
+You can change the IDs of the user by supplying environment variables:
+
+* PUID to set the user id 
+* PGID to set the group id 
+
+```
+version: "3.0"
+services:
+  lighttpd:
+    image: anoikisnomads/lighttpd:latest
+    container_name: lighttpd
+    hostname: lighttpd
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./data/config:/etc/lighttpd
+      - ./data/certs:/var/www/certs
+      - ./data/htdocs:/var/www/htdocs
+    restart: unless-stopped
+    tty: true
+```
+
+
 ## About
 
 Originally written by [Sébastien Pujadas](http://pujadas.net), released under the [MIT license](http://opensource.org/licenses/MIT).
