@@ -46,6 +46,6 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/386
           tags: | 
             ghcr.io/mronak/lighttpd:latest
-            ghcr.io/mronak/lighttpd:${{ github:ref_name }}
+            ghcr.io/mronak/lighttpd:${{ github.ref_name }}
 
 
