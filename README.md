@@ -39,9 +39,19 @@ By default lighttpd will serve HTTP on port 80 and HTTPS on port 443.
 
 If you want to automatically redirect HTTP traffic to HTTPS, have a look at `data/config/mod_rewrite.conf`.
 
+### docker
+
+The image is available on DockerHub, GitHub Packages and Quay.io. Pick the registry you are comfortable with.
+
+* `docker pull anoikisnomads/lighttpd:latest`
+* `docker pull quay.io/anoikisnomads/lighttpd:latest`
+* `docker pull ghcr.io/mronak/lighttpd:latest`
+
 ### docker compose
 
 A working docker-compose.yml file is provided as inpiration. Tweak to your needs.
+
+The image is available on DockerHub, GitHub Packages and Quay.io. See the example docker-compose below and pick the one you're comfortable with.
 
 ### serving a single site
 
@@ -50,6 +60,8 @@ version: "3.0"
 services:
   lighttpd:
     image: anoikisnomads/lighttpd:latest
+#    image: quay.io/anoikisnomads/lighttpd:latest
+#    image: ghcr.io/mronak/lighttpd:latest
     container_name: lighttpd
     hostname: lighttpd
     ports:
