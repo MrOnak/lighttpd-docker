@@ -4,10 +4,9 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatch:
 
 jobs:
-  buildx:
+  docker:
     runs-on: ubuntu-latest
     
     steps:
