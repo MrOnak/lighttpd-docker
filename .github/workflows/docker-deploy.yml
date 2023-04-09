@@ -37,5 +37,9 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/arm64,linux/386
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest,${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:${{ github.ref_name }}
+          tags: | 
+            ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:${{ github.ref_name }}
+            ghcr.io/MrOnak/lighttpd:latest
+            ghcr.io/MrOnak/lighttpd:${{ github. ref_name }}
 
