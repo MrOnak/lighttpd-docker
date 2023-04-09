@@ -46,7 +46,7 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/386
           tags: | 
             quay.io/${{ secrets.QUAY_USERNAME }}/lighttpd:latest
-            quay.io/${{ secrets.QUAY_USERNAME }}/lighttpd:${{ github:ref_name }}
+            quay.io/${{ secrets.QUAY_USERNAME }}/lighttpd:${{ github.ref_name }}
             ghcr.io/mronak/lighttpd-docker:latest
             ghcr.io/mronak/lighttpd-docker:${{ github.ref_name }}
 
