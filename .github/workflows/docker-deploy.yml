@@ -30,8 +30,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: .
-          file: Dockerfile
           platforms: linux/amd64,linux/arm64,linux/386
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest,${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:${{ github.ref_name }}
 
