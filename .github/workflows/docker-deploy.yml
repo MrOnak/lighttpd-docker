@@ -40,6 +40,6 @@ jobs:
           tags: | 
             ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/lighttpd:${{ github.ref_name }}
-            ghcr.io/mronak/lighttpd:latest
-            ghcr.io/mronak/lighttpd:${{ github.ref_name }}
+            ghcr.io/mronak/lighttpd-docker:latest
+            ghcr.io/mronak/lighttpd-docker:${{ github.ref_name }}
 
