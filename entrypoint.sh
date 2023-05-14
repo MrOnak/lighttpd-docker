@@ -9,7 +9,7 @@ PGID=${PGID:-$(id -g lighttpd)}
 groupmod -o -g "$PGID" lighttpd
 usermod -o -u "$PUID" lighttpd
 
-printf "User dockrun is running with the following IDs:\n"
+printf "User lighttpd is running with the following IDs:\n"
 printf "\tUID: %s\n" "${PUID}"
 printf "\tGID: %s\n" "${PGID}"
 
